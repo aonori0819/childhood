@@ -14,4 +14,4 @@ use App\Http\Controllers\MemoryController;
 */
 
 Route::get('/', [ MemoryController::class, 'index'])->name('memories.index');
-
+Route::resource('memories', MemoryController::class)->except(['index']);
