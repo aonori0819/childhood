@@ -28,5 +28,27 @@ class MemoryController extends Controller
         return redirect()->route('memories.index');
     }
 
+    public function edit(Memory $memory)
+    {
+        return view('memories.edit', ['memory' => $memory]);
+    }
+
+    public function update(MemoryRequest $request, Memory $memory)
+    {
+        $memory->fill($request->all())->save();
+        return redirect()->route('memories.index');
+    }
+
+    public function destroy(Memory $memory)
+    {
+        $memory->delete();
+        return redirect()->route('memories.index');
+    }
+
+    public function show(Memory $memory)
+    {
+        return view('memories.show', ['memory' => $memory]);
+    }
+
 
 }
