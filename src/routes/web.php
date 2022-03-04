@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemoryController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,5 +14,7 @@ use App\Http\Controllers\MemoryController;
 |
 */
 
-Route::get('/', [ MemoryController::class, 'index'])->name('memories.index');
-Route::resource('memories', MemoryController::class)->except(['index']);
+Route::get('/', [ MemoryController::class, 'index'])->middleware('auth')->name('memories.index');
+Route::resource('memories', MemoryController::class)->except(['index'])->middleware('auth');
+
+require __DIR__.'/auth.php';
