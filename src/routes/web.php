@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemoryController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +17,6 @@ use App\Http\Controllers\MemoryController;
 
 Route::get('/', [ MemoryController::class, 'index'])->middleware('auth')->name('memories.index');
 Route::resource('memories', MemoryController::class)->except(['index'])->middleware('auth');
-
 require __DIR__.'/auth.php';
+Route::post('/memories/{memory_id}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
