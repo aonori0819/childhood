@@ -8,6 +8,11 @@ use App\Models\Memory;
 
 class MemoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Memory::class, 'memory');
+    }
+
     public function index()
     {
         $memories = Memory::all()->sortByDesc('created_at');
