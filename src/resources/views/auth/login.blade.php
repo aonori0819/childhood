@@ -49,10 +49,18 @@
                 @endif
             </div>
 
-            <div class="mt-4">
-                <x-button class="">
-                    {{ __('Log in') }}
-                </x-button>
+            <div class="container">
+                <div class="row mt-4">
+                    <x-button class="">
+                        {{ __('Log in') }}
+                    </x-button>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row mt-5">
+                        または　<a href="{{ route('register') }}">新規登録</a>
+                </div>
             </div>
         </form>
     </x-auth-card>
