@@ -14,14 +14,13 @@ class CommentController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(CommentRequest $request)
+    public function store(CommentRequest $request, Comment $comment)
     {
-        $comment = new Comment();
         $comment->user_id = $request->user()->id;
         $comment->memory_id = $request->memory_id;
         $comment->body = $request->body;
         $comment->save();
-        $memory = Memory::find($comment->memory_id);
+        $memory = Memory::findOrFail($comment->memory_id);
 
         return redirect()->route('memories.show', ['memory' => $memory])->with('status','コメントを投稿しました');
     }

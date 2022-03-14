@@ -3,12 +3,6 @@
 @section('title', '思い出の詳細')
 
 @section('content')
-     <!-- フラッシュメッセージを表示 -->
-    @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-    @endif
 
      <!-- 思い出本文を表示 -->
     <div class="container">
