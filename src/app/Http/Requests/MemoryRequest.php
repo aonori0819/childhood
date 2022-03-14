@@ -31,7 +31,7 @@ class MemoryRequest extends FormRequest
     public function attributes()
     {
         return [
-            'body' => '本文',
+            'body' => '思い出',
         ];
     }
 }

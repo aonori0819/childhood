@@ -1,8 +1,10 @@
 <div class="card mt-3">
     <div class="card-body d-flex flex-row">
-        <i class="fas fa-user-circle fa-3x mr-1"></i>
+            <i class="fas fa-user-circle fa-3x mr-1"></i>
         <div>
-            <div class="font-weight-bold">{{ $memory->user->name }}</div>
+            <div class="font-weight-bold">
+                    {{ $memory->user->name }}
+            </div>
             <div class="font-weight-lighter">{{ $memory->created_at->format('Y/m/d H:i') }}</div>
         </div>
 
@@ -52,17 +54,20 @@
     </div>
 
     <!-- 思い出本文表示 -->
+    <a class="text-dark" href="{{ route('memories.show', ['memory' => $memory]) }}">
         <div class="card-header pt-3 pb-3">
             <div class="card-text pt-1 pb-3">
-                <a class="text-dark" href="{{ route('memories.show', ['memory' => $memory]) }}">
+                @foreach ($memory->children as $child_to_memory)
+                    {{ $child_to_memory->name}}
+                @endforeach
                     {{ $memory->body }}
-                </a>
             </div>
         </div>
+    </a>
 
     <!-- コメント -->
         <ul class="list-group list-group-flush">
-            @foreach ($memory->comment()->oldest()->get() as $comment)
+            @foreach ($memory->comments()->oldest()->get() as $comment)
 
                 <li class="list-group-item">
 
