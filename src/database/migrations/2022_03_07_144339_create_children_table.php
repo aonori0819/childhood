@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('memories', function (Blueprint $table) {
+        Schema::create('children', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedBigInteger('family_id')->nullable();
             $table->foreign('family_id')->references('id')->on('families');
-            $table->text('body');
-            $table->string('image_path')->nullable();
+            $table->string('name');
+            $table->string('icon_path')->nullable();
+            $table->date('birthday')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('memories');
+        Schema::dropIfExists('children');
     }
 };
