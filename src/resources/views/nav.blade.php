@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark blue-gradient fixed-bottom">
 
-    <a class="navbar-brand" href={{ url('/') }}><i class="fa-solid fa-otter"></i> childhood</a>
+    <a class="navbar-brand" href={{ url('/') }}><img src="/images/teddybear_small.svg" height="32px" > childhood</a>
 
     <ul class="navbar-nav ml-auto">
 
@@ -13,13 +13,13 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href=""><i class="fas fa-user-circle"></i></a>
+        <a class="nav-link" href="{{ route('users.show', ['user' => Auth::user()]) }}" ><i class="fas fa-user-circle"></i></a>
       </li>
 
       <li class="nav-item">
         <form id="logout-form" action="{{ route('logout') }}" method="POST">
             @csrf
-            <input type="submit" value="&#xf2f5;" class="fas">
+            <input type="submit" value="&#xf2f5;" class="fas　">
         </form>
       </li>
 
