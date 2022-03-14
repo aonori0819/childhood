@@ -45,12 +45,12 @@ class MemoryController extends Controller
         if (isset($user_detail->family_id))
         {
             $family = UserDetail::find($user_detail->id)->family;
-            $children = Family::find($family->id)->children;
+            $child_list = Family::find($family->id)->children->pluck("name", "id");
         }else {
-            $children = null;
+            $child_list = null;
         }
 
-        return view('memories.create', compact('children'));
+        return view('memories.create', compact('child_list'));
     }
 
     public function store(MemoryRequest $request, Memory $memory)
@@ -87,12 +87,12 @@ class MemoryController extends Controller
         if (isset($user_detail->family_id))
         {
             $family = UserDetail::find($user_detail->id)->family;
-            $children = Family::find($family->id)->children;
+            $child_list = Family::find($family->id)->children->pluck("name", "id");
         }else {
             $children = null;
         }
 
-        return view('memories.edit', compact('memory','children'));
+        return view('memories.edit', compact('memory','child_list'));
     }
 
     public function update(MemoryRequest $request, Memory $memory)
