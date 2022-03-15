@@ -10,16 +10,24 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <div class="card-text">
-                            <form method="POST" action="{{ route('users.update', ['user' => $user ]) }}">
+                            <form method="POST" action="{{ route('users.update', ['user' => $user ]) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
                                     <h8><p class="mt-3">ユーザーネーム</p></h8>
                                     <textarea name="name" required class="form-control" rows="1" placeholder="ユーザーネーム">{{ $user->name ?? old('name') }}</textarea>
                                     <h8><p class="mt-5">お子さまとの関係</p></h8>
                                     <textarea name="relation_to_child" required class="form-control" rows="1" placeholder="お子さまとの関係">{{ $user->user_detail->relation_to_child ?? old('relation_to_child') }}</textarea>
-                                    <h8><p class="mt-5">アイコン画像</p></h8>
-                                    <textarea name="icon_path" class="form-control" rows="1" placeholder=" アイコン画像">画像をアップロード</textarea>
-                                    <a href= "{{ $user_details->icon_path ?? old('icon_path') }}" >
+                                    <div class="image-picker">
+                                        <label><p class="mt-5">アイコン画像</p></label>
+                                        @if ($user->user_detail->icon_path)
+                                            <div>
+                                                <img src="{{ asset('storage/icon/' . $user->user_detail->icon_path ) }}" width="150" alt="アイコン画像">
+                                            </div>
+                                        @endif
+                                        <div>
+                                        <input type="file" name="icon_path" accept="image/png,image/jpeg,image/gif,image/svg">
+                                        </div>
+                                    </div>
                                     <div class="mt-3">
                                         <button type="submit" class="btn blue-gradient">登録</button>
                                     </div>
