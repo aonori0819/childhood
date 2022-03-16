@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Memory;
 use App\Http\Requests\CommentRequest;
@@ -12,6 +11,7 @@ class CommentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Comment::class, 'comment'); //ポリシー適用
     }
 
     public function store(CommentRequest $request, Comment $comment)

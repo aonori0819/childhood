@@ -56,13 +56,13 @@
                                 </div>
                             @endforeach
 
-                    {{-- famil_id未設定／お子さまとの関係設定済の場合、ログインユーザーの名前を表示してeditに --}}
+                    {{-- family_id未設定／お子さまとの関係設定済の場合、ログインユーザーの名前を表示してeditに --}}
                         @elseif(isset($data['user']->user_detail->relation_to_child))
                             <div>
                                 {{ $data['user']->name }}
                                 <a href="{{ route('users.edit', ['user' => $data['user'], 'user_detail' => $data['user']->user_detail ] ) }}" class="text-dark"><i class="fa-solid fa-gear"></i></a>
                             </div>
-                    {{-- famil_id未設定／お子さまとの関係未設定の場合、ログインユーザーの名前を表示してcreateに --}}
+                    {{-- family_id未設定／お子さまとの関係未設定の場合、ログインユーザーの名前を表示してcreateに --}}
                         @else
                             <div>
                                 {{ $data['user']->name }}

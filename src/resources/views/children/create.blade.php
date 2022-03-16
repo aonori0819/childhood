@@ -14,11 +14,14 @@
                                 @csrf
                                 <div class="form-group">
                                     <h8><p class="mt-3">お子さまのお名前</p></h8>
-                                    <textarea name="name" required class="form-control" rows="1" placeholder="ユーザーネーム">{{ $user->name ?? old('name') }}</textarea>
+                                    @if($errors->has('name')) <span class="text-danger">{{ $errors->first('name') }}</span> @endif
+                                    <textarea name="name" class="form-control" rows="1" placeholder="ユーザーネーム">{{ $user->name ?? old('name') }}</textarea>
                                     <h8><p class="mt-5">お誕生日</p></h8>
-                                    <textarea name="birthday" required class="form-control" rows="1" placeholder="お誕生日">{{ old('birthday') }}</textarea>
+                                    @if($errors->has('birthday')) <span class="text-danger">{{ $errors->first('birthday') }}</span> @endif
+                                    <textarea name="birthday" class="form-control" rows="1" placeholder="お誕生日（例：2020/1/7）">{{ old('birthday') }}</textarea>
                                     <div class="image-picker">
                                         <label><p class="mt-5">アイコン画像</p></label>
+                                        @if($errors->has('icon_path')) <div class="text-danger">{{ $errors->first('icon_path') }}</div> @endif
                                         <div>
                                             <input type="file" name="icon_path" accept="image/png,image/jpeg,image/gif,image/svg">
                                         </div>

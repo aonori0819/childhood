@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\FamilyRequest;
 use App\Models\Family;
 use App\Models\Memory;
 use App\Models\User;
@@ -16,28 +16,26 @@ class FamilyController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Family::class, 'family'); //ポリシー適用
     }
 
-    //家族設定（ファミリーネーム）新規登録フォーム
-    public function create(Family $family)
+    //家族設定（ファミリー名）新規登録フォーム
+    public function create()
     {
-        return view('families.create', compact('family'));
+        return view('families.create');
     }
 
-    //家族設定（ファミリーネーム）の新規登録
-    public function store(Request $request)
+    //家族設定（ファミリー名）の新規登録
+    public function store(FamilyRequest $request)
     {
         DB::beginTransaction();
         try{
-            $family = Family::create(
-                ['id'=> $request->id],
-                ['name' => $request->name],
+            $family = Family::Create(
+                ['name' => $request->name,]
             );
 
-            $user =Auth::user();
-
             //user_detailにfamily_idを紐づける
-            $user = Auth::user();
+            $user =Auth::user();
             $user_detail = User::find($user->id)->user_detail;
             $user_detail->family_id = $family->id;
             $user_detail->save();
@@ -47,6 +45,7 @@ class FamilyController extends Controller
             foreach ($memories as $memory)
             {
                 $memory->family_id = $family->id;
+                $memory->save();
             }
 
         }catch(Exception $e){
@@ -59,14 +58,14 @@ class FamilyController extends Controller
                          ->with('status','ファミリー名を登録しました');
     }
 
-    //家族設定（ファミリーネーム）更新フォーム
+    //家族設定（ファミリー名）更新フォーム
     public function edit(Family $family)
     {
         return view('families.edit', compact('family'));
     }
 
-    //家族設定（ファミリーネーム）の更新
-    public function update(Request $request, Family $family)
+    //家族設定（ファミリー名）の更新
+    public function update(FamilyRequest $request, Family $family)
     {
             $family->fill($request->all())->save();
             $user = Auth::user();
