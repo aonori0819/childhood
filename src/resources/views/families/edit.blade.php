@@ -7,24 +7,25 @@
 
     <div class="container">
         <div class="row">
-          <div class="col-12">
-            <div class="card mt-3">
-              <div class="card-body pt-3">
-                <div class="card-text">
-                  <form method="POST" action="{{ route('families.update', ['family' => $family ]) }}">
-                    @method('PATCH')
-                    @csrf
-                    <div class="form-group">
-                    <textarea name="name" required class="form-control" rows="1" placeholder="ファミリー名を設定">{{ $family->name ?? old('name') }}</textarea>
+            <div class="col-12">
+                <div class="card mt-3">
+                    <div class="card-body pt-3">
+                        <div class="card-text">
+                            @if($errors->has('name')) <div class="text-danger">{{ $errors->first('name') }}</div> @endif
+                                <form method="POST" action="{{ route('families.update', ['family' => $family ]) }}">
+                                    @method('PATCH')
+                                    @csrf
+                                <div class="form-group">
+                                    <textarea name="name" class="form-control" rows="1" placeholder="ファミリー名を設定">{{ $family->name ?? old('name') }}</textarea>
+                                </div>
+                                <button type="submit" class="btn blue-gradient btn-block">登録</button>
+                            </form>
+                        </div>
                     </div>
-                    <button type="submit" class="btn blue-gradient btn-block">登録</button>
-                  </form>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
     <div class="container">
         <div class="card mt-3">

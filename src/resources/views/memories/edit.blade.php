@@ -15,8 +15,10 @@
                 @csrf
                 <div class="form-group">
                     {{-- 本文 --}}
-                    <textarea name="body" required class="form-control" rows="16" placeholder="ひとこと・できごと・おもいを入力">{{ $memory->body ?? old('body') }}
+                    @if($errors->has('body')) <span class="text-danger">{{ $errors->first('body') }}</span> @endif
+                    <textarea name="body" required class="form-control" rows="10" placeholder="ひとこと・できごと・おもいを入力">{{ $memory->body ?? old('body') }}
                     </textarea>
+
                     {{-- 画像アップロード --}}
                     @if ($memory->image_path)
                         <div class="image-upload">
@@ -24,17 +26,21 @@
                         </div>
                     @endif
                     <span class="image-picker">
-                        <label>写真・画像を変更</label>
+                        <div class="mt-4"><label>■写真・画像を変更</label></div>
+                        @if($errors->has('image_path')) <div class="text-danger">{{ $errors->first('image_path') }}</div> @endif
                         <input type="file" name="image_path" accept="image/png,image/jpeg,image/gif,image/svg" >
                     </span>
                     <div class="delete-image">
-                        <label>写真・画像を削除</label>
-                        <input type="checkbox" name="delete_image" value="true">
+                        <div class="mt-4">
+                            <label>■写真・画像を削除</label>
+                            <input type="checkbox" name="delete_image" value="true">
+                        </div>
                     </div>
+
                     {{-- お子さまを登録済の場合、お子さまを選ぶボタン（任意選択）を表示 --}}
                     @if (isset($child_list))
                     <div class="select-child">
-                        <p>どちらのお子さまの記録ですか？</p>
+                        <p>■どちらのお子さまの記録ですか？</p>
                         @foreach($child_list as $id => $name)
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" name="children[]" value="{{ $id }}" {{ $memory->children->contains($id) ? 'checked' : '' }}>

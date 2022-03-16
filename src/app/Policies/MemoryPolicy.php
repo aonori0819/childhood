@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Policies;
-
-use App\Models\Memory;
 use App\Models\User;
+use App\Models\Memory;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+
 
 class MemoryPolicy
 {
@@ -16,7 +17,7 @@ class MemoryPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny()
     {
         return true;
     }
@@ -30,7 +31,20 @@ class MemoryPolicy
      */
     public function view(User $user, Memory $memory)
     {
-        return true;
+        //family_id設定済の場合
+        if ($user->user_detail->family)
+        {
+            return $user->user_detail->family->id === $memory->family_id
+                        ? Response::allow()
+                        : Response::deny('このページにアクセスする権限がありません。');
+
+        } else {
+        //family_id未設定の場合
+
+            return $user->id === $memory->user_id
+                        ? Response::allow()
+                        : Response::deny('このページにアクセスする権限がありません。');
+        }
     }
 
     /**
@@ -39,7 +53,7 @@ class MemoryPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create()
     {
         return true;
     }
@@ -53,7 +67,9 @@ class MemoryPolicy
      */
     public function update(User $user, Memory $memory)
     {
-        return $user->id === $memory->user_id;
+        return $user->id === $memory->user_id
+                    ? Response::allow()
+                    : Response::deny('このページにアクセスする権限がありません。');
     }
 
     /**
@@ -65,7 +81,9 @@ class MemoryPolicy
      */
     public function delete(User $user, Memory $memory)
     {
-        return $user->id === $memory->user_id;
+        return $user->id === $memory->user_id
+                    ? Response::allow()
+                    : Response::deny('権限がありません。');
     }
 
 }

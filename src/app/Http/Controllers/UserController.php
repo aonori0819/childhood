@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\Family;
 use App\Models\UserDetail;
@@ -13,9 +14,16 @@ use Exception;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->authorizeResource(User::class, 'user'); //ポリシー適用
+    }
+
     //家族情報一覧画面（ファミリーネーム、家族一覧、お子さま一覧）の表示
     public function show(User $user)
     {
+
         $data = $this->collectUserInfo($user);
         return view('users.show', compact('data'));
     }
@@ -27,7 +35,7 @@ class UserController extends Controller
     }
 
     //ユーザー詳細情報（ユーザーネーム、お子さまとの関係、アイコン画像）の新規登録
-    public function store(Request $request, User $user)
+    public function store(UserRequest $request, User $user)
     {
         DB::beginTransaction();
         try{
@@ -57,13 +65,15 @@ class UserController extends Controller
     }
 
     //ユーザー詳細情報（ユーザーネーム、お子さまとの関係、アイコン画像）の更新フォーム
+    //family_id設定済の場合、詳細情報の新規登録時もこのフォーム
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
     }
 
     //ユーザー詳細情報（ユーザーネーム、お子さまとの関係、アイコン画像）の更新
-    public function update(Request $request, User $user)
+    //family_id設定済の場合、詳細情報の新規登録もこのアクションメソッド
+    public function update(UserRequest $request, User $user)
     {
         DB::beginTransaction();
         try{
