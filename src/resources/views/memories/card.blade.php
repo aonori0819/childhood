@@ -1,6 +1,10 @@
 <div class="card mt-3">
     <div class="card-body d-flex flex-row">
+        @if ($memory->user->user_detail->icon_path)
+            <img src="{{ asset('storage/icon/' . $memory->user->user_detail->icon_path ) }}" width="50" height="50" class="rounded-circle mr-1" alt="アイコン画像">
+        @else
             <i class="fas fa-user-circle fa-3x mr-1"></i>
+        @endif
         <div>
             <div class="font-weight-bold">
                     {{ $memory->user->name }}
@@ -56,16 +60,32 @@
     <!-- 思い出本文表示 -->
     <a class="text-dark" href="{{ route('memories.show', ['memory' => $memory]) }}">
         <div class="card-header pt-3 pb-3">
-            <div class="card-text pt-1 pb-3">
+            <div class="d-flex flex-raw">
                 @foreach ($memory->children as $child_to_memory)
-                    {{ $child_to_memory->name}}
-                @endforeach
-                    {{ $memory->body }}
-                @if (isset($memory->image_path))
-                    <div class="image-upload">
-                        <img src="{{ asset('storage/upload/' . $memory->image_path ) }}" width="150" alt="思い出の画像">
+                    <div class="d-flex flex-column pr-3">
+                        <div class="fs-6">
+                            {{ $child_to_memory->name}}
+                        </div>
+                        <div class="px-2 ">
+                        @if ($child_to_memory->icon_path)
+                            <img src="{{ asset('storage/icon/' . $child_to_memory->icon_path ) }}" width="50" height="50" class="rounded-circle" alt="アイコン画像">
+                        @else
+                            <i class="fas fa-user-circle fa-3x mr-1"></i>
+                        @endif
+                        </div>
                     </div>
-                @endif
+                @endforeach
+                <div class="d-flex flex-column pr-3">
+                    <div class="card-text py-2 px-4 align-self-center">
+                            {{ $memory->body }}
+                    </div>
+
+                    @if (isset($memory->image_path))
+                        <div class="image-upload">
+                            <img src="{{ asset('storage/upload/' . $memory->image_path ) }}" width="150" alt="思い出の画像">
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </a>
