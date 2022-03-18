@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Family;
 use App\Models\UserDetail;
+use App\Models\Icon;
 use Exception;
 
 
@@ -38,10 +39,7 @@ class UserController extends Controller
 
             //アイコン画像の保存
             if ($request->icon_path) {
-                $file = $request->file('icon_path');                          //ファイルを取得
-                $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
-                $file->storeAs('icon', $file_name, ['disk' => 'public']);    //ファイルを格納
-                $user_detail->icon_path = $file_name;
+                 $user_detail->icon_path = Icon::saveFile($request);
             }
 
             $user_detail->save();
