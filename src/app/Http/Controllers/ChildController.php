@@ -28,7 +28,7 @@ class ChildController extends Controller
     }
 
     //お子さま情報の新規登録
-    public function store(Request $request, Child $child)
+    public function store(Request $request)
     {
         DB::beginTransaction();
         try{
@@ -49,7 +49,7 @@ class ChildController extends Controller
 
         //family_idにchildを紐づける
             $user = Auth::user();
-            $user_detail = User::find($user->id)->user_detail;
+            $user_detail = $user->user_detail;
 
             //family_id設定済（先にファミリー名を設定済orメール招待）の場合
             if (isset($user_detail->family_id))
