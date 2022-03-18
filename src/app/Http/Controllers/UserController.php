@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Family;
 use App\Models\UserDetail;
+use App\Models\Icon;
 use Exception;
 
 
@@ -34,7 +36,12 @@ class UserController extends Controller
             $user->save();
             $user_detail = User::find($user->id)->user_detail;
             $user_detail->relation_to_child = $request->relation_to_child;
-            $user_detail->icon_path = $request->icon_path;
+
+            //アイコン画像の保存
+            if ($request->icon_path) {
+                 $user_detail->icon_path = Icon::saveFile($request);
+            }
+
             $user_detail->save();
 
         }catch(Exception $e){
@@ -62,7 +69,20 @@ class UserController extends Controller
             $user->save();
             $user_detail = User::find($user->id)->user_detail;
             $user_detail->relation_to_child = $request->relation_to_child;
-            $user_detail->icon_path = $request->icon_path;
+
+            //アイコン画像の変更
+            if ($request->icon_path) {
+
+                if($user_detail->icon_path)
+                {
+                    Storage::disk('public')->delete('icon/'.$user_detail->icon_path); //前回アップロードしたファイルがある場合は削除
+                }
+                $file = $request->file('icon_path');                          //今回アップロードされたファイルを取得
+                $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
+                $file->storeAs('icon', $file_name, ['disk' => 'public']);     //ファイルを格納
+                $user_detail->icon_path = $file_name;
+            }
+
             $user_detail->save();
 
         }catch(Exception $e){

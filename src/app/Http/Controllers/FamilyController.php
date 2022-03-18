@@ -18,13 +18,13 @@ class FamilyController extends Controller
         $this->middleware('auth');
     }
 
-    //家族設定新規登録フォーム
+    //家族設定（ファミリーネーム）新規登録フォーム
     public function create(Family $family)
     {
         return view('families.create', compact('family'));
     }
 
-    //家族設定の新規登録
+    //家族設定（ファミリーネーム）の新規登録
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -59,13 +59,13 @@ class FamilyController extends Controller
                          ->with('status','ファミリー名を登録しました');
     }
 
-    //家族設定更新フォーム
+    //家族設定（ファミリーネーム）更新フォーム
     public function edit(Family $family)
     {
         return view('families.edit', compact('family'));
     }
 
-    //家族設定の更新
+    //家族設定（ファミリーネーム）の更新
     public function update(Request $request, Family $family)
     {
             $family->fill($request->all())->save();

@@ -61,6 +61,11 @@
                     {{ $child_to_memory->name}}
                 @endforeach
                     {{ $memory->body }}
+                @if (isset($memory->image_path))
+                    <div class="image-upload">
+                        <img src="{{ asset('storage/upload/' . $memory->image_path ) }}" width="150" alt="思い出の画像">
+                    </div>
+                @endif
             </div>
         </div>
     </a>

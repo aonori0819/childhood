@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Child;
 use App\Models\User;
 use App\Models\Family;
 use App\Models\Memory;
 use App\Models\UserDetail;
+use App\Models\Icon;
 use Exception;
 
 
@@ -27,19 +29,26 @@ class ChildController extends Controller
     }
 
     //お子さま情報の新規登録
-    public function store(Request $request, Child $child)
+    public function store(Request $request)
     {
         DB::beginTransaction();
         try{
+            //アイコン画像の保存
+            if ($request->icon_path) {
+                $file_name = Icon::saveFile($request);
+            } else {
+                $file_name = null;
+            }
+
             $child = Child::Create(
                 ['name' => $request->name,
-                 'icon_path' => $request->icon_path,
+                 'icon_path' => $file_name,
                  'birthday' => $request->birthday ],
             );
 
         //family_idにchildを紐づける
             $user = Auth::user();
-            $user_detail = User::find($user->id)->user_detail;
+            $user_detail = $user->user_detail;
 
             //family_id設定済（先にファミリー名を設定済orメール招待）の場合
             if (isset($user_detail->family_id))
@@ -83,11 +92,26 @@ class ChildController extends Controller
     //お子さま情報の更新
     public function update(Request $request, Child $child)
     {
-        $child->fill($request->all())->save();
+        $child->name = $request->name;
+        $child->birthday = $request->birthday;
+
+        //アイコン画像の変更
+        if ($request->icon_path) {
+
+            if($child->icon_path)
+            {
+                Storage::disk('public')->delete('icon/'.$child->icon_path); //前回アップロードしたファイルがある場合は削除
+            }
+            $file = $request->file('icon_path');                          //今回アップロードされたファイルを取得
+            $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
+            $file->storeAs('icon', $file_name, ['disk' => 'public']);     //ファイルを格納
+            $child->icon_path = $file_name;
+        }
+        $child->save();
         $user = Auth::user();
 
         return redirect()->route('users.show', ['user' => $user])
-                            ->with('status','お子さま情報を更新しました');
+                         ->with('status','お子さま情報を更新しました');
     }
 
     //お子さま情報の削除
