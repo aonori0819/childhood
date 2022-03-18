@@ -43,7 +43,7 @@ class MemoryController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $user_detail = User::find($user->id)->user_detail;
+        $user_detail = $user->user_detail;
 
         //family_id設定済（先にファミリー名を設定済orメール招待）の場合、同じファミリーに紐づく全てのお子さまを取得してビューのチェックボックスに表示
         if (isset($user_detail->family_id))
@@ -57,9 +57,10 @@ class MemoryController extends Controller
         return view('memories.create', compact('child_list'));
     }
 
-    public function store(MemoryRequest $request, Memory $memory)
+    public function store(MemoryRequest $request)
     {
-        $memory->user_id = $request->user()->id;
+        $memory = new Memory;
+        $memory->user_id = Auth::id();
         $memory->body = $request->body;
 
         //family_id登録済の場合
