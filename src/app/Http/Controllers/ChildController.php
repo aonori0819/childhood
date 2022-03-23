@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ChildRequest;
 use App\Models\Child;
 use App\Models\User;
 use App\Models\Family;
@@ -20,6 +20,7 @@ class ChildController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Child::class, 'child'); //ポリシー適用
     }
 
     //お子さま情報の新規登録フォーム
@@ -29,7 +30,7 @@ class ChildController extends Controller
     }
 
     //お子さま情報の新規登録
-    public function store(Request $request)
+    public function store(ChildRequest $request)
     {
         DB::beginTransaction();
         try{
@@ -71,6 +72,7 @@ class ChildController extends Controller
             foreach ($memories as $memory)
             {
                 $memory->family_id = $family->id;
+                $memory->save();
             }
 
         }catch(Exception $e){
@@ -90,7 +92,7 @@ class ChildController extends Controller
     }
 
     //お子さま情報の更新
-    public function update(Request $request, Child $child)
+    public function update(ChildRequest $request, Child $child)
     {
         $child->name = $request->name;
         $child->birthday = $request->birthday;
