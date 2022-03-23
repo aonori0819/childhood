@@ -23,7 +23,7 @@ class MemoryController extends Controller
         $user = Auth::user();
 
         //family_id設定済の場合
-        if ($user->user_detail->family)
+        if (isset($user->user_detail->family))
         {
             $family = $user->user_detail->family;
             $memories = Memory::where('family_id', $family->id)->orderBy('created_at','desc')->get();
@@ -32,7 +32,8 @@ class MemoryController extends Controller
         //family_id未設定の場合
             $memories = Memory::where('user_id', $user->id)->orderBy('created_at','desc')->get();
         }
-            return view('memories.index', compact('memories'));
+
+        return view('memories.index', compact('memories'));
     }
 
     public function show(Memory $memory)
@@ -43,10 +44,10 @@ class MemoryController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $user_detail = User::find($user->id)->user_detail;
+        $user_detail = $user->user_detail;
 
         //family_id設定済の場合、同じファミリーに紐づく全てのお子さまを取得してビューのチェックボックスに表示
-        if ($user->user_detail->family)
+        if (isset($user->user_detail->family))
         {
             $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
         }else {
@@ -56,13 +57,14 @@ class MemoryController extends Controller
         return view('memories.create', compact('child_list'));
     }
 
-    public function store(MemoryRequest $request, Memory $memory)
+    public function store(MemoryRequest $request)
     {
-        $memory->user_id = $request->user()->id;
+        $memory = new Memory;
+        $memory->user_id = Auth::id();
         $memory->body = $request->body;
 
         //family_id設定済の場合
-        if (null!==($request->user()->user_detail->family_id))
+        if (isset($request->user()->user_detail->family_id))
         {
             $memory->family_id = $request->user()->user_detail->family_id;
         }
@@ -78,7 +80,7 @@ class MemoryController extends Controller
         $memory->save();
 
         //思い出に子どもを紐づけて投稿する場合
-        if (null!==($request->children))
+        if (isset($request->children))
         {
             foreach ($request->children as $child)
             {
@@ -94,7 +96,7 @@ class MemoryController extends Controller
         $user = Auth::user();
 
         //family_id設定済の場合
-        if ($user->user_detail->family)
+        if (isset($user->user_detail->family))
         {
             $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
         }else {
@@ -129,9 +131,9 @@ class MemoryController extends Controller
         }
 
         //アップロード画像の保存
-        if ($request->image_path)
+        if (isset($request->image_path))
         {
-            if($memory->image_path)
+            if(isset($memory->image_path))
             {
                 Storage::disk('public')->delete('upload/'.$previous_file); //前回アップロードしたファイルがある場合は削除
             }

@@ -67,8 +67,8 @@ class FamilyController extends Controller
     //家族設定（ファミリー名）の更新
     public function update(FamilyRequest $request, Family $family)
     {
-            $family->fill($request->all())->save();
-            $user = Auth::user();
+        $family->fill($request->all())->save();
+        $user = Auth::user();
 
         return redirect()->route('users.show', ['user' => $user ])
                          ->with('status','ファミリー名を登録しました');

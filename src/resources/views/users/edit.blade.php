@@ -11,6 +11,7 @@
                     <div class="card-body">
                         <div class="card-text">
                             <form method="POST" action="{{ route('users.update', ['user' => $user ]) }}" enctype="multipart/form-data">
+                                @method('PATCH')
                                 @csrf
                                 <div class="form-group">
                                     <h8><p class="mt-3">ユーザーネーム</p></h8>
