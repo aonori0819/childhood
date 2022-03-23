@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Family;
 use App\Models\Memory;
 use App\Models\UserDetail;
+use App\Models\Icon;
 use Exception;
 
 
@@ -34,10 +35,8 @@ class ChildController extends Controller
         DB::beginTransaction();
         try{
             //アイコン画像の保存
-            if ($request->icon_path) {
-                $file = $request->file('icon_path');                          //ファイルを取得
-                $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
-                $file->storeAs('icon', $file_name, ['disk' => 'public']);     //ファイルを格納
+            if (isset($request->icon_path)) {
+                $file_name = Icon::saveFile($request);
             } else {
                 $file_name = null;
             }
@@ -50,7 +49,7 @@ class ChildController extends Controller
 
         //family_idにchildを紐づける
             $user = Auth::user();
-            $user_detail = User::find($user->id)->user_detail;
+            $user_detail = $user->user_detail;
 
             //family_id設定済（先にファミリー名を設定済orメール招待）の場合
             if (isset($user_detail->family_id))

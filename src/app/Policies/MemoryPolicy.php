@@ -32,7 +32,7 @@ class MemoryPolicy
     public function view(User $user, Memory $memory)
     {
         //family_id設定済の場合
-        if ($user->user_detail->family)
+        if (isset($user->user_detail->family))
         {
             return $user->user_detail->family->id === $memory->family_id
                         ? Response::allow()

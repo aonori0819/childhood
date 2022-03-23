@@ -1,7 +1,11 @@
 {
     "Log in": "ログイン",
+    "Name": "ユーザーネーム",
     "Password": "パスワード",
+    "Confirm Password": "パスワード（確認）",
     "Email": "メールアドレス",
     "Forgot your password?": "パスワードをお忘れですか？",
-    "Remember me": "パスワードを保存する"
+    "Remember me": "ログインしたままにする",
+    "Already registered?": "ログインはこちら",
+    "Register": "新規登録"
   }
