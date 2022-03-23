@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\MemoryRequest;
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use App\Models\Memory;
-use App\Models\Child;
 use App\Models\User;
 use App\Models\Family;
 use App\Models\UserDetail;
@@ -20,24 +15,29 @@ class MemoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->authorizeResource(Memory::class, 'memory');
+        $this->authorizeResource(Memory::class, 'memory');  //ポリシー適用
     }
 
     public function index()
     {
         $user = Auth::user();
-        $user_detail = User::find($user->id)->user_detail;
 
-        //family_id設定済（先にファミリー名を設定済orメール招待）の場合、同じファミリーに紐づく全てのお子さまを取得してビューのチェックボックスに表示
-        if (isset($user_detail->family_id))
+        //family_id設定済の場合
+        if ($user->user_detail->family)
         {
-            $family = UserDetail::find($user_detail->id)->family;
-            $children = Family::find($family->id)->children;
+            $family = $user->user_detail->family;
+            $memories = Memory::where('family_id', $family->id)->orderBy('created_at','desc')->get();
+
+        } else {
+        //family_id未設定の場合
+            $memories = Memory::where('user_id', $user->id)->orderBy('created_at','desc')->get();
         }
+            return view('memories.index', compact('memories'));
+    }
 
-        $memories = Memory::all()->sortBy('created_at');
-
-        return view('memories.index', compact('memories'));
+    public function show(Memory $memory)
+    {
+        return view('memories.show', compact('memory'));
     }
 
     public function create()
@@ -45,11 +45,10 @@ class MemoryController extends Controller
         $user = Auth::user();
         $user_detail = $user->user_detail;
 
-        //family_id設定済（先にファミリー名を設定済orメール招待）の場合、同じファミリーに紐づく全てのお子さまを取得してビューのチェックボックスに表示
-        if (isset($user_detail->family_id))
+        //family_id設定済の場合、同じファミリーに紐づく全てのお子さまを取得してビューのチェックボックスに表示
+        if ($user->user_detail->family)
         {
-            $family = UserDetail::find($user_detail->id)->family;
-            $child_list = Family::find($family->id)->children->pluck("name", "id");
+            $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
         }else {
             $child_list = null;
         }
@@ -63,7 +62,7 @@ class MemoryController extends Controller
         $memory->user_id = Auth::id();
         $memory->body = $request->body;
 
-        //family_id登録済の場合
+        //family_id設定済の場合
         if (null!==($request->user()->user_detail->family_id))
         {
             $memory->family_id = $request->user()->user_detail->family_id;
@@ -94,15 +93,13 @@ class MemoryController extends Controller
     public function edit(Memory $memory)
     {
         $user = Auth::user();
-        $user_detail = User::find($user->id)->user_detail;
 
-        //family_id設定済（先にファミリー名を設定済orメール招待）の場合
-        if (isset($user_detail->family_id))
+        //family_id設定済の場合
+        if ($user->user_detail->family)
         {
-            $family = UserDetail::find($user_detail->id)->family;
-            $child_list = Family::find($family->id)->children->pluck("name", "id");
+            $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
         }else {
-            $children = null;
+            $child_list = null;
         }
 
         return view('memories.edit', compact('memory','child_list'));
@@ -162,11 +159,6 @@ class MemoryController extends Controller
         $memory->delete();
 
         return redirect()->route('memories.index');
-    }
-
-    public function show(Memory $memory)
-    {
-        return view('memories.show', compact('memory'));
     }
 
 }
