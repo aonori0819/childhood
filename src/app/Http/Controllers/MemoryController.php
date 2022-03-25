@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MemoryRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Memory;
@@ -18,7 +19,7 @@ class MemoryController extends Controller
         $this->authorizeResource(Memory::class, 'memory');  //ポリシー適用
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -26,14 +27,36 @@ class MemoryController extends Controller
         if (isset($user->user_detail->family))
         {
             $family = $user->user_detail->family;
-            $memories = Memory::where('family_id', $family->id)->orderBy('created_at','desc')->get();
+
+            $query = Memory::query();
+            $query->where('family_id', $family->id)->orderBy('created_at','desc');
+
+            //検索窓とページネーション
+            $keyword = $request->input('keyword');
+            if (!empty($keyword)) {
+                $query->where('body', 'like', '%' . $keyword . '%');
+            }
+
+            $memories = $query->paginate(10);
 
         } else {
         //family_id未設定の場合
-            $memories = Memory::where('user_id', $user->id)->orderBy('created_at','desc')->get();
+
+            $query = Memory::query();
+            $query->where('user_id', $user->id)->orderBy('created_at','desc');
+
+            //検索窓とページネーション
+            $keyword = $request->input('keyword');
+            if (!empty($keyword)) {
+                $query->where('body', 'like', '%' . $keyword . '%');
+            }
+
+            $memories = $query->paginate(10);
+
         }
 
-        return view('memories.index', compact('memories'));
+        return view('memories.index', compact('memories', 'keyword'));
+
     }
 
     public function show(Memory $memory)
@@ -49,7 +72,10 @@ class MemoryController extends Controller
         //family_id設定済の場合、同じファミリーに紐づく全てのお子さまを取得してビューのチェックボックスに表示
         if (isset($user->user_detail->family))
         {
-            $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
+            // $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
+            $child_list = Family::find($user->user_detail->family->id)->children;
+
+
         }else {
             $child_list = null;
         }
@@ -98,7 +124,7 @@ class MemoryController extends Controller
         //family_id設定済の場合
         if (isset($user->user_detail->family))
         {
-            $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
+            $child_list = Family::find($user->user_detail->family->id)->children;
         }else {
             $child_list = null;
         }

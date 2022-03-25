@@ -101,5 +101,12 @@
             </div>
         </div>
     </div>
+
+    <div class="text-center mt-5">
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button class="btn btn-link" data-mdb-ripple-color="dark" style="border: solid 1px #ccc;">ログアウトする</button>
+        </form>
+    </div>
 @include('nav')
 @endsection
