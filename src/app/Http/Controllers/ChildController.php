@@ -35,7 +35,7 @@ class ChildController extends Controller
         DB::beginTransaction();
         try{
             //アイコン画像の保存
-            if ($request->icon_path) {
+            if (isset($request->icon_path)) {
                 $file_name = Icon::saveFile($request);
             } else {
                 $file_name = null;

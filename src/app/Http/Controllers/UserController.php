@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UserRequest;
@@ -24,7 +23,6 @@ class UserController extends Controller
     //家族情報一覧画面（ファミリーネーム、家族一覧、お子さま一覧）の表示
     public function show(User $user)
     {
-
         $data = $this->collectUserInfo($user);
         return view('users.show', compact('data'));
     }
@@ -47,7 +45,8 @@ class UserController extends Controller
 
             //アイコン画像の保存
             if ($request->icon_path) {
-                 $user_detail->icon_path = Icon::saveFile($request);
+              
+                $user_detail->icon_path = Icon::saveFile($request);
             }
 
             $user_detail->save();

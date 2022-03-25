@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Memory;
 
-class ChildrenTableSeeder extends Seeder
+class MemoryTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,9 +16,7 @@ class ChildrenTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('children')->insert([
-            'family_id' => '1',
-            'name' => 'はるき',
-        ]);
+
+        Memory::factory()->count(10)->create();
     }
 }

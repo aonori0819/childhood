@@ -21,7 +21,7 @@ class UserPolicy
     public function view(User $user, User $model)
     {
         //family_id設定済の場合
-        if ($user->user_detail->family)
+        if (isset($user->user_detail->family))
         {
             return  $user->user_detail->family_id === $model->user_detail->family_id
                         ? Response::allow()
@@ -57,7 +57,7 @@ class UserPolicy
     public function update(User $user, User $model)
     {
         //family_id設定済の場合
-        if ($user->user_detail->family)
+        if (isset($user->user_detail->family))
         {
             return  $user->user_detail->family_id === $model->user_detail->family_id
                         ? Response::allow()

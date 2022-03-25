@@ -1,6 +1,6 @@
 <div class="card mt-3">
     <div class="card-body d-flex flex-row">
-        @if ($memory->user->user_detail->icon_path)
+        @if (isset($memory->user->user_detail->icon_path))
             <img src="{{ asset('storage/icon/' . $memory->user->user_detail->icon_path ) }}" width="50" height="50" class="rounded-circle mr-1" alt="アイコン画像">
         @else
             <i class="fas fa-user-circle fa-3x mr-1"></i>
@@ -67,7 +67,7 @@
                             {{ $child_to_memory->name}}
                         </div>
                         <div class="px-2 ">
-                        @if ($child_to_memory->icon_path)
+                        @if (isset($child_to_memory->icon_path))
                             <img src="{{ asset('storage/icon/' . $child_to_memory->icon_path ) }}" width="50" height="50" class="rounded-circle" alt="アイコン画像">
                         @else
                             <i class="fas fa-user-circle fa-3x mr-1"></i>

@@ -33,14 +33,14 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('/create/{user}', [ UserController::class, 'create'])->name('create');
     Route::post('/store/{user}', [ UserController::class, 'store'])->name('store');
     Route::get('/edit/{user}', [ UserController::class, 'edit'])->name('edit');
-    Route::post('/update/{user}', [ UserController::class, 'update'])->name('update');
+    Route::patch('/update/{user}', [ UserController::class, 'update'])->name('update');
 });
 
 Route::prefix('families')->name('families.')->group(function () {
     Route::get('/create/', [ FamilyController::class, 'create'])->name('create');
+    Route::post('/store/', [ FamilyController::class, 'store'])->name('store');
     Route::get('/edit/{family}', [ FamilyController::class, 'edit'])->name('edit');
     Route::patch('/update/{family}', [ FamilyController::class, 'update'])->name('update');
-    Route::post('/store/', [ FamilyController::class, 'store'])->name('store');
 });
 
 Route::resource('children', ChildController::class)->except(['index','show']);
