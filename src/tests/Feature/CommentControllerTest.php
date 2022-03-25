@@ -50,9 +50,7 @@ class CommentControllerTest extends TestCase
         $this->user->user_detail = UserDetail::factory()->create(['user_id' => $this->user->id]);
         $family = Family::factory()->create();
         $this->user->user_detail->family_id = $family->id;
-        $memory = Memory::factory()->create([
-            'family_id' => $family->id,
-        ]);
+        $memory = Memory::factory()->for($family)->create();
 
         $data = ['body' => '家族からのコメント新規登録テスト'];
         $response = $this->post(route('comments.store', ['memory_id' => $memory->id]), $data);
