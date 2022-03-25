@@ -59,7 +59,7 @@ class FamilyControllerTest extends TestCase
     public function edit_家族設定（ファミリー名）編集画面の表示に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->create(['user_id' => $this->user->id]);
+        $this->user->user_detail = UserDetail::factory()->for($this->user)->create();
         $family = Family::factory()->create();
         $this->user->user_detail->family_id = $family->id;
 
@@ -73,7 +73,7 @@ class FamilyControllerTest extends TestCase
     public function update_家族設定（ファミリー名）の更新に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->create(['user_id' => $this->user->id]);
+        $this->user->user_detail = UserDetail::factory()->for($this->user)->create();
         $family = Family::factory()->create();
         $this->user->user_detail->family_id = $family->id;
 
