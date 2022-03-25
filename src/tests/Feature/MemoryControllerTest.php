@@ -23,8 +23,6 @@ class MemoryControllerTest extends TestCase
     /** @test */
     public function index_思い出一覧画面の表示に成功する()
     {
-        $this->artisan('db:seed', ['--class' => 'MemoryTableSeeder']);
-
         $response = $this->actingAs($this->user)
                          ->get('/');
 
@@ -44,9 +42,7 @@ class MemoryControllerTest extends TestCase
     public function show_思い出詳細画面の表示に成功する()
     {
         $this->actingAs($this->user);
-        $memory = Memory::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $memory = Memory::factory()->for($this->user)->create();
 
 
         $response = $this->get(route('memories.show', ['memory' => $memory]));
@@ -59,7 +55,6 @@ class MemoryControllerTest extends TestCase
     /** @test */
     public function create_思い出新規作成画面の表示に成功する()
     {
-        $this->artisan('db:seed', ['--class' => 'MemoryTableSeeder']);
         $this->actingAs($this->user);
 
         $response = $this->get(route('memories.create'));
@@ -87,9 +82,7 @@ class MemoryControllerTest extends TestCase
     public function edit_思い出編集画面の表示に成功する()
     {
         $this->actingAs($this->user);
-        $memory = Memory::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $memory = Memory::factory()->for($this->user)->create();
 
         $response = $this->get(route('memories.edit', ['memory' => $memory]));
 
@@ -102,9 +95,7 @@ class MemoryControllerTest extends TestCase
     public function update_思い出の更新に成功する()
     {
         $this->actingAs($this->user);
-        $memory = Memory::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $memory = Memory::factory()->for($this->user)->create();
 
         $data = ['body'=>'思い出編集テスト'];
         $response = $this->put(route('memories.update', $memory), $data);
