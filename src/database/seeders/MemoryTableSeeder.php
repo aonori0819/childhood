@@ -16,8 +16,6 @@ class MemoryTableSeeder extends Seeder
      */
     public function run()
     {
-        // Memory::truncate();  //一括削除
-
         Memory::factory()->count(100)->create();
     }
 }

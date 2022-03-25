@@ -15,6 +15,7 @@ class Icon extends Model
         $file = $request->icon_path;                                  //ファイルを取得
         $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
         $file->storeAs('icon', $file_name, ['disk' => 'public']);     //ファイルを格納
+
         return $file_name;
     }
 }
