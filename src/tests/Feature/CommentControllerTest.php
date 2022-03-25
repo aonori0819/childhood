@@ -29,9 +29,7 @@ class CommentControllerTest extends TestCase
     public function store_familyid設定前にコメントの新規登録に成功する() //自分が投稿した思い出に対してのみコメント
     {
         $this->actingAs($this->user);
-        $memory = Memory::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $memory = Memory::factory()->for($this->user)->create();
 
         $data = ['body' => 'コメント新規登録テスト'];
         $response = $this->post(route('comments.store', ['memory_id' => $memory->id]), $data);
