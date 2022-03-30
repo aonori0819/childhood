@@ -12,10 +12,31 @@ services:
       - ./src:/data
       - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
     working_dir: /data
+
   db:
+    platform: linux/arm64/v8
     build: ./infra/mysql
     volumes:
       - db-store:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=phper
+      - PMA_PASSWORD=secret
+    links:
+      - mysql
+    ports:
+      - 4040:80
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
 
 volumes:
   db-store:
