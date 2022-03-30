@@ -1,37 +1,27 @@
 <nav class="navbar navbar-expand navbar-dark blue-gradient fixed-bottom">
 
-    <a class="navbar-brand" href="/"><i class="far fa-sticky-note mr-1"></i>childhood</a>
+    <a class="navbar-brand" href={{ url('/') }}><img src="/images/teddybear_small.svg" height="32px" > childhood</a>
 
     <ul class="navbar-nav ml-auto">
 
       <li class="nav-item">
-        <a class="nav-link" href="">ホーム</a>
+        <a class="nav-link" href="{{ url('/') }}"><i class="fas fa-home"></i></a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href=""><i class="fas fa-pen mr-1"></i>ふりかえり</a>
+        <a class="nav-link" href=""><i class="far fa-calendar-alt"></i></a>
       </li>
 
-      <!-- Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-          <button class="dropdown-item" type="button"
-                  onclick="location.href=''">
-            マイページ
-          </button>
-          <div class="dropdown-divider"></div>
-          <button form="logout-button" class="dropdown-item" type="submit">
-            ログアウト
-          </button>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('users.show', ['user' => Auth::user()]) }}" ><i class="fas fa-user-circle"></i></a>
       </li>
-      <form id="logout-button" method="POST" action="">
-      </form>
-      <!-- Dropdown -->
+
+      <li class="nav-item">
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+            <input type="submit" value="&#xf2f5;" class="fas　">
+        </form>
+      </li>
 
     </ul>
 
