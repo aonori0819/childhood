@@ -1,7 +1,7 @@
 <div class="card mt-3">
     <div class="card-body d-flex flex-row">
-        @if (isset($memory->user->user_detail->icon_path))
-            <img src="{{ asset('storage/icon/' . $memory->user->user_detail->icon_path ) }}" width="50" height="50" class="rounded-circle mr-1" alt="アイコン画像">
+        @if (isset($memory->user->userDetail->icon_path))
+            <img src="{{ asset('storage/icon/' . $memory->user->userDetail->icon_path ) }}" width="50" height="50" class="rounded-circle mr-1" alt="アイコン画像">
         @else
             <i class="fas fa-user-circle fa-3x mr-1"></i>
         @endif

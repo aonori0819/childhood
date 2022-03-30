@@ -80,7 +80,7 @@ class UserControllerTest extends TestCase
     public function edit_ユーザー詳細情報編集画面の表示に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->create(['user_id' => $this->user->id]);
+        $this->user->userDetail = UserDetail::factory()->create(['user_id' => $this->user->id]);
 
         $response = $this->get(route('users.edit',['user' => $this->user]));
 
@@ -92,7 +92,7 @@ class UserControllerTest extends TestCase
     public function update_ユーザー詳細情報の更新に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->create(['user_id' => $this->user->id]);
+        $this->user->userDetail = UserDetail::factory()->create(['user_id' => $this->user->id]);
 
         $data = ['user_id' => $this->user->id,
                  'name' => '更新テストユーザー',

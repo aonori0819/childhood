@@ -22,10 +22,10 @@ class FilterController extends Controller
         $user = Auth::user();
 
         //family_id設定済の場合
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            $family = $user->user_detail->family;
-            $child_list = Family::find($user->user_detail->family->id)->children;
+            $family = $user->userDetail->family;
+            $child_list = Family::find($user->userDetail->family->id)->children;
 
             $memory = Memory::inRandomOrder()
                 ->where('family_id', $family->id)->first();
@@ -67,7 +67,7 @@ class FilterController extends Controller
     {
         $child_id = $request->child_id;
         $user = Auth::user();
-        $family = $user->user_detail->family;
+        $family = $user->userDetail->family;
         $query = Memory::childFilter($child_id);
 
         //検索窓とページネーション
@@ -89,9 +89,9 @@ class FilterController extends Controller
         $query = Memory::monthFilter($month_year);
 
         //family_id設定済の場合
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            $family = $user->user_detail->family;
+            $family = $user->userDetail->family;
             $query->where('family_id', $family->id);
 
         //family_id未設定の場合

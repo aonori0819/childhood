@@ -20,7 +20,7 @@ class Family extends Model
         return $this->HasMany('App\Models\Child');
     }
 
-    public function user_details():HasMany
+    public function userDetails():HasMany
     {
         return $this->HasMany('App\Models\UserDetail');
     }
@@ -28,5 +28,10 @@ class Family extends Model
     public function memory():HasMany
     {
         return $this->HasMany('App\Models\Memory');
+    }
+
+    public function invite():HasMany
+    {
+        return $this->HasMany('App\Models\Invite');
     }
 }

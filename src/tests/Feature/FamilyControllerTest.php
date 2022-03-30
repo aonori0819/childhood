@@ -51,7 +51,7 @@ class FamilyControllerTest extends TestCase
             'name' => 'テストファミリー'
             ]);
         $this->assertDatabaseHas('user_details',  [
-            'family_id' => $this->user->user_detail->family_id,
+            'family_id' => $this->user->userDetail->family_id,
             ]);
     }
 
@@ -59,9 +59,9 @@ class FamilyControllerTest extends TestCase
     public function edit_家族設定（ファミリー名）編集画面の表示に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->create(['user_id' => $this->user->id]);
+        $this->user->userDetail = UserDetail::factory()->create(['user_id' => $this->user->id]);
         $family = Family::factory()->create();
-        $this->user->user_detail->family_id = $family->id;
+        $this->user->userDetail->family_id = $family->id;
 
         $response = $this->get(route('families.edit',['family' => $family]));
 
@@ -73,9 +73,9 @@ class FamilyControllerTest extends TestCase
     public function update_家族設定（ファミリー名）の更新に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->create(['user_id' => $this->user->id]);
+        $this->user->userDetail = UserDetail::factory()->create(['user_id' => $this->user->id]);
         $family = Family::factory()->create();
-        $this->user->user_detail->family_id = $family->id;
+        $this->user->userDetail->family_id = $family->id;
 
         $data = ['name' => '更新テストファミリー',];
         $response = $this->patch(route('families.update',['family' => $family]), $data);
