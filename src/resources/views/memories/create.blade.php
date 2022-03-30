@@ -43,7 +43,9 @@
                     </div>
                     @endif
                 </div>
-                <button type="submit" class="btn blue-gradient btn-block">投稿する</button>
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn blue-gradient btn-block" style="width:150px">記録する</button>
+                </div>
               </form>
             </div>
           </div>

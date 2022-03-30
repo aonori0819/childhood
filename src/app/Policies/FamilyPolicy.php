@@ -32,7 +32,7 @@ class FamilyPolicy
      */
     public function update(User $user, Family $family)
     {
-        return $user->user_detail->family_id === $family->id
+        return $user->userDetail->family_id === $family->id
                     ? Response::allow()
                     : Response::deny('このページにアクセスする権限がありません。');
     }
