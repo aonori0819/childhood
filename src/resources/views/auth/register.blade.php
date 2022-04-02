@@ -53,6 +53,7 @@
                     {{ __('Register') }}
                 </x-button>
             </div>
+            <input type="hidden" name="token" value="{{ request('token') }}">
         </form>
     </x-auth-card>
 </x-guest-layout>

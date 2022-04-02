@@ -9,18 +9,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href=""><i class="far fa-calendar-alt"></i></a>
+        <a class="nav-link" href="{{ route('filters.index') }}"><i class="far fa-calendar-alt"></i></a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('users.show', ['user' => Auth::user()]) }}" ><i class="fas fa-user-circle"></i></a>
-      </li>
-
-      <li class="nav-item">
-        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-            @csrf
-            <input type="submit" value="&#xf2f5;" class="fas　">
-        </form>
+        <a class="nav-link" href="{{ route('users.show', ['user' => Auth::user()]) }}"><i class="fas fa-user-circle"></i></a>
       </li>
 
     </ul>

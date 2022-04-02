@@ -26,8 +26,8 @@
                                             <input type="file" name="icon_path" accept="image/png,image/jpeg,image/gif,image/svg">
                                         </div>
                                      </div>
-                                    <div class="mt-3">
-                                        <button type="submit" class="btn blue-gradient">登録</button>
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <button type="submit" class="btn blue-gradient" style="width:150px">登録</button>
                                     </div>
                                 </div>
                             </form>
