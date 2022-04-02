@@ -24,8 +24,8 @@ services:
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=db
-      - PMA_USER=phper
-      - PMA_PASSWORD=secret
+      - PMA_USER=root
+      - PMA_PASSWORD=secretpassmysql
     links:
       - mysql
     ports:
