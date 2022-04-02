@@ -16,7 +16,6 @@ class MemoryTableSeeder extends Seeder
      */
     public function run()
     {
-
-        Memory::factory()->count(10)->create();
+        Memory::factory()->count(100)->create();
     }
 }

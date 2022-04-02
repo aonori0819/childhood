@@ -40,7 +40,7 @@ class ChildControllerTest extends TestCase
     public function store_お子さま情報の新規登録に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->for($this->user)->create();
+        $this->user->userDetail = UserDetail::factory()->for($this->user)->create();
 
         $data = ['name' => '花子',
                  'birthday' => '20170123'];
@@ -58,9 +58,9 @@ class ChildControllerTest extends TestCase
     public function edit_お子さま情報編集画面の表示に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->for($this->user)->create();
+        $this->user->userDetail = UserDetail::factory()->for($this->user)->create();
         $family = Family::factory()->create();
-        $this->user->user_detail->family_id = $family->id;
+        $this->user->userDetail->family_id = $family->id;
         $child = Child::factory()->for($family)->create();
 
         $response = $this->get(route('children.edit',['child' => $child]));
@@ -73,9 +73,9 @@ class ChildControllerTest extends TestCase
     public function update_お子さま情報の更新に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->for($this->user)->create();
+        $this->user->userDetail = UserDetail::factory()->for($this->user)->create();
         $family = Family::factory()->create();
-        $this->user->user_detail->family_id = $family->id;
+        $this->user->userDetail->family_id = $family->id;
         $child = Child::factory()->for($family)->create();
 
         $data = ['name' => '太郎',
@@ -94,11 +94,11 @@ class ChildControllerTest extends TestCase
     public function destroy_お子さま情報の削除に成功する()
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->for($this->user)->create();
+        $this->user->userDetail = UserDetail::factory()->for($this->user)->create();
         $family = Family::factory()->create();
-        $this->user->user_detail->family_id = $family->id;
+        $this->user->userDetail->family_id = $family->id;
         $child = Child::factory()->create([
-            'family_id' => $this->user->user_detail->family_id,
+            'family_id' => $this->user->userDetail->family_id,
             'name' => '二郎',
             'birthday' => '20191231'
         ]);

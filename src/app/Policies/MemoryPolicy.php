@@ -32,9 +32,9 @@ class MemoryPolicy
     public function view(User $user, Memory $memory)
     {
         //family_id設定済の場合
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            return $user->user_detail->family->id === $memory->family_id
+            return $user->userDetail->family->id === $memory->family_id
                         ? Response::allow()
                         : Response::deny('このページにアクセスする権限がありません。');
 

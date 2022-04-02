@@ -21,9 +21,9 @@ class UserPolicy
     public function view(User $user, User $model)
     {
         //family_id設定済の場合
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            return  $user->user_detail->family_id === $model->user_detail->family_id
+            return  $user->userDetail->family_id === $model->userDetail->family_id
                         ? Response::allow()
                         : Response::deny('このページにアクセスする権限がありません。');
 
@@ -57,9 +57,9 @@ class UserPolicy
     public function update(User $user, User $model)
     {
         //family_id設定済の場合
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            return  $user->user_detail->family_id === $model->user_detail->family_id
+            return  $user->userDetail->family_id === $model->userDetail->family_id
                         ? Response::allow()
                         : Response::deny('このページにアクセスする権限がありません。');
 
