@@ -2,7 +2,7 @@ FROM mysql/mysql-server:8.0
 
 ENV ***REMOVED*** \
     ***REMOVED*** \
-    ***REMOVED*** \
+    ***REMOVED******REMOVED*** \
     ***REMOVED*** \
     TZ=Asia/Tokyo
 
