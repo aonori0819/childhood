@@ -45,6 +45,7 @@ class UserController extends Controller
 
             //アイコン画像の保存
             if ($request->icon_path) {
+              
                 $user_detail->icon_path = Icon::saveFile($request);
             }
 

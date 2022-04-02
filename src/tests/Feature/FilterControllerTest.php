@@ -55,7 +55,8 @@ class FilterControllerTest extends TestCase
         $this->user->userDetail = UserDetail::factory()->for($this->user)->create();
         $family = Family::factory()->create();
         $this->user->userDetail->family_id = $family->id;
-        $memory = Memory::factory()->create(['family_id' => $family->id]);
+        $memory = Memory::factory()->for($family->)->create();
+
         $month_year = $memory->created_at->format('Y-m');
 
         $response = $this->get(route('filters.showByMonth',['month_year' => $month_year]));
