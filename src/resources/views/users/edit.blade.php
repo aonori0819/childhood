@@ -24,7 +24,7 @@
                                         <label><p class="mt-5">アイコン画像</p></label>
                                         @if ($user->user_detail->icon_path)
                                             <div>
-                                                <img src="{{ asset('storage/icon/' . $user->user_detail->icon_path ) }}" width="150" alt="アイコン画像">
+                                                <img src="{{ asset($user->user_detail->icon_path) }}" width="150" alt="アイコン画像">
                                             </div>
                                         @endif
                                         @if($errors->has('icon_path')) <div class="text-danger">{{ $errors->first('icon_path') }}</div> @endif
