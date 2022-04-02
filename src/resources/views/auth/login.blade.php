@@ -43,7 +43,7 @@
             </div>
 
             <div class="container">
-                <div class="row mt-4">
+                <div class="mt-4">
                     <x-button class="">
                         {{ __('Log in') }}
                     </x-button>
