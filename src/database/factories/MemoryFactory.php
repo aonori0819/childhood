@@ -26,7 +26,7 @@ class MemoryFactory extends Factory
     {
         return [
             'user_id' => 1,
-            'body' => $this->faker->text(200),
+            'body' => $this->faker->realText(150),
         ];
     }
 }

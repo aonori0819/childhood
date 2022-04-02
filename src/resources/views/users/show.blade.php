@@ -57,10 +57,10 @@
                             @endforeach
 
                     {{-- family_id未設定／お子さまとの関係設定済の場合、ログインユーザーの名前を表示してeditに --}}
-                        @elseif(isset($data['user']->user_detail->relation_to_child))
+                        @elseif(isset($data['user']->userDetail->relation_to_child))
                             <div>
                                 {{ $data['user']->name }}
-                                <a href="{{ route('users.edit', ['user' => $data['user'], 'user_detail' => $data['user']->user_detail ] ) }}" class="text-dark"><i class="fa-solid fa-gear"></i></a>
+                                <a href="{{ route('users.edit', ['user' => $data['user'], 'user_detail' => $data['user']->userDetail ] ) }}" class="text-dark"><i class="fa-solid fa-gear"></i></a>
                             </div>
                     {{-- family_id未設定／お子さまとの関係未設定の場合、ログインユーザーの名前を表示してcreateに --}}
                         @else
@@ -69,7 +69,10 @@
                                 <a href="{{ route('users.create', ['user' => $data['user'] ] ) }}" class="text-dark"><i class="fa-solid fa-gear"></i></a>
                             </div>
                         @endif
-                        {{-- ここで「＋家族を招待する」ボタンを追加 --}}
+                    {{-- 家族を招待する --}}
+                        <div class="mt-3">
+                        <a href="{{ route('invite.index') }}" class="text-dark">＋家族を招待する</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,14 +95,19 @@
                                 </div>
                             @endforeach
                         @endif
-
                     {{--  お子さまを追加する --}}
                         <a href="{{ route('children.create') }}" class="text-dark">＋お子さまを追加する</a>
-
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button class="btn btn-link" data-mdb-ripple-color="dark" style="border: solid 1px #ccc;">ログアウトする</button>
+        </form>
     </div>
 @include('nav')
 @endsection

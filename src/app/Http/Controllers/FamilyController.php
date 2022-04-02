@@ -36,7 +36,7 @@ class FamilyController extends Controller
 
             //user_detailにfamily_idを紐づける
             $user =Auth::user();
-            $user_detail = User::find($user->id)->user_detail;
+            $user_detail = User::find($user->id)->userDetail;
             $user_detail->family_id = $family->id;
             $user_detail->save();
 

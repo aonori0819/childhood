@@ -46,7 +46,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function user_detail():HasOne
+    public function userDetail():HasOne
     {
         return $this->hasOne('App\Models\UserDetail');
     }

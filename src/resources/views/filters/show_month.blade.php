@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div>
-                <form class="form-inline" action="{{route('memories.index') }}">
+                <form class="form-inline" action="{{route('filters.showByMonth',[ 'month_year' => $month_year ]) }}">
                     <input class="form-control" type="text" name="keyword" value="{{$keyword}}" placeholder="">
                     <button type="submit" class="btn btn-link"><i class="fas fa-search"></i></button>
                 </form>
