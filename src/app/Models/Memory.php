@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class Memory extends Model
 {
     use HasFactory;
@@ -18,6 +19,36 @@ class Memory extends Model
         'body',
         'image_path',
     ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
+
+    //子ども別の思い出を抽出
+    public static function childFilter($child_id)
+    {
+        $memories = self::query()
+            ->whereHas('children', function($query) use($child_id){$query->where('memory_child.child_id', $child_id);})
+            ->orderBy('created_at','desc');
+
+        return $memories;
+    }
+
+    //年月別の思い出を抽出
+    public static function monthFilter($month_year)
+    {
+        $arr_month_year = explode("-", $month_year);
+        $year = $arr_month_year[0];
+        $month = $arr_month_year[1];
+
+        $memories = self::query()
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month )
+            ->orderBy('created_at','desc');
+
+        return $memories;
+    }
 
     public function user(): BelongsTo
     {
@@ -32,6 +63,11 @@ class Memory extends Model
     public function children():BelongsToMany
     {
         return $this->BelongsToMany('App\Models\Child', 'memory_child')->withTimestamps();
+    }
+
+    public function family():BelongsTo
+    {
+        return $this->BelongsTo('App\Models\Family');
     }
 
 }

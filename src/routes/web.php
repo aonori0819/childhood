@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\MemoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FilterController;
 
 
 
@@ -44,3 +45,8 @@ Route::prefix('families')->name('families.')->group(function () {
 });
 
 Route::resource('children', ChildController::class)->except(['index','show']);
+
+Route::get('filters', [ FilterController::class, 'index'])->name('filters.index');
+Route::get('filters/showByChild/{child_id}', [ FilterController::class, 'showByChild'])->name('filters.showByChild');
+Route::get('filters/showByMonth/{month_year}', [ FilterController::class, 'showByMonth'])->name('filters.showByMonth');
+

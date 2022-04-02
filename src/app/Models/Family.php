@@ -24,4 +24,9 @@ class Family extends Model
     {
         return $this->HasMany('App\Models\UserDetail');
     }
+
+    public function memory():HasMany
+    {
+        return $this->HasMany('App\Models\Memory');
+    }
 }

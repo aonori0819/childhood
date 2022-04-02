@@ -28,10 +28,16 @@
                     @if (isset($child_list))
                     <div class="select-child" >
                         <div class="mt-4">■どちらのお子さまの記録ですか？</div>
-                        @foreach($child_list as $id => $name)
+                        @foreach($child_list as $child)
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="children[]" value="{{ $id }}">
-                                <label class="form-check-label" for="inlineRadio1">{{ $name }}</label>
+                                <input class="form-check-input" type="checkbox" name="children[]" value="{{ $child->id }}">
+                                <label class="form-check-label" >{{ $child->name }}
+                                    @if(isset($child->icon_path))
+                                        <div>
+                                            <img src="{{ asset('storage/icon/' . $child->icon_path ) }}" width="50" alt="アイコン画像">
+                                        </div>
+                                    @endif
+                                </label>
                             </div>
                         @endforeach
                     </div>
