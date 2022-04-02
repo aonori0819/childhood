@@ -6,7 +6,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\MemoryController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\FilterController;
+use App\Http\Controllers\InviteController;
 
 
 /*
@@ -44,3 +45,11 @@ Route::prefix('families')->name('families.')->group(function () {
 });
 
 Route::resource('children', ChildController::class)->except(['index','show']);
+
+Route::get('filters', [ FilterController::class, 'index'])->name('filters.index');
+Route::get('filters/showByChild/{child_id}', [ FilterController::class, 'showByChild'])->name('filters.showByChild');
+Route::get('filters/showByMonth/{month_year}', [ FilterController::class, 'showByMonth'])->name('filters.showByMonth');
+
+Route::get('/invite', [InviteController::class, 'index'])->name('invite.index');;
+Route::post('/invite/send', [InviteController::class, 'sendMail'])->name('invite.send');
+

@@ -27,7 +27,7 @@ class CommentFactory extends Factory
         return [
             'user_id' => 1,
             'memory_id' => 1,
-            'body' => $this->faker->text(100),
+            'body' => $this->faker->realText(100),
         ];
     }
 }
