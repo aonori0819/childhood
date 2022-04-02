@@ -33,7 +33,7 @@ class ChildPolicy
      */
     public function update(User $user, Child $child)
     {
-        return  $user->user_detail->family_id === $child->family_id
+        return  $user->userDetail->family_id === $child->family_id
                     ? Response::allow()
                     : Response::deny('このページにアクセスする権限がありません。');
     }
@@ -47,7 +47,7 @@ class ChildPolicy
      */
     public function delete(User $user, Child $child)
     {
-        return $user->user_detail->family_id === $child->family_id
+        return $user->userDetail->family_id === $child->family_id
                     ? Response::allow()
                     : Response::deny('権限がありません。');
     }

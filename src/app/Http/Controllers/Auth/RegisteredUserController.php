@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Models\Invite;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -21,8 +22,14 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
+        //家族招待URLの有効期限が切れている場合
+        if((isset($request->token))&& (! $request->hasValidSignature()))
+        {
+            return view('invite.error');
+        }
+
         return view('auth.register');
     }
 
@@ -51,7 +58,15 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            UserDetail::create(['user_id' => $user->id,]);
+            $user_detail = UserDetail::create(['user_id' => $user->id]);
+
+            //家族招待URLから登録した場合、family_idを紐づける
+            if(isset($request->token))
+            {
+                $invite = Invite::where('token', $request->token)->firstOrFail();
+                $user_detail->family_id = $invite->family_id;
+                $user_detail->save();
+            }
 
         }catch(Exception $e){
             DB::rollback();

@@ -49,7 +49,7 @@ class ChildController extends Controller
 
         //family_idにchildを紐づける
             $user = Auth::user();
-            $user_detail = $user->user_detail;
+            $user_detail = $user->userDetail;
 
             //family_id設定済（先にファミリー名を設定済orメール招待）の場合
             if (isset($user_detail->family_id))
@@ -57,7 +57,7 @@ class ChildController extends Controller
                 $family = UserDetail::find($user_detail->id)->family;
 
             } else {
-            //family_id未設定（ファミリー名未設定orメール招待）の場合
+            //family_id未設定（ファミリー名未設定）の場合
                 $family = new Family();
                 $family->save();
                 $user_detail->family_id = $family->id;

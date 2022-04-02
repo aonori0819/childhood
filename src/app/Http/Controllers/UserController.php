@@ -40,7 +40,7 @@ class UserController extends Controller
         try{
             $user->name = $request->name;
             $user->save();
-            $user_detail = User::find($user->id)->user_detail;
+            $user_detail = User::find($user->id)->userDetail;
             $user_detail->relation_to_child = $request->relation_to_child;
 
             //アイコン画像の保存
@@ -76,7 +76,7 @@ class UserController extends Controller
         try{
             $user->name = $request->name;
             $user->save();
-            $user_detail = User::find($user->id)->user_detail;
+            $user_detail = User::find($user->id)->userDetail;
             $user_detail->relation_to_child = $request->relation_to_child;
 
             //アイコン画像の変更
@@ -107,12 +107,12 @@ class UserController extends Controller
     //ビューに渡すためのデータを集める
     private function collectUserInfo(User $user): array
     {
-        $user_detail = User::find($user->id)->user_detail;
+        $user_detail = User::find($user->id)->userDetail;
 
         if (isset( $user_detail->family_id )){
 
             $family = UserDetail::find($user_detail->id)->family;
-            $user_details = Family::find($family->id)->user_details;
+            $user_details = Family::find($family->id)->userDetails;
             $children = Family::find($family->id)->children;
 
         } else {

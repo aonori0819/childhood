@@ -45,9 +45,9 @@ class CommentControllerTest extends TestCase
     public function store_familyid設定後にコメントの新規登録に成功する() //同じfamily_idに紐づく思い出に対してコメント
     {
         $this->actingAs($this->user);
-        $this->user->user_detail = UserDetail::factory()->for($this->user)->create();
+        $this->user->userDetail = UserDetail::factory()->for($this->user)->create();
         $family = Family::factory()->create();
-        $this->user->user_detail->family_id = $family->id;
+        $this->user->userDetail->family_id = $family->id;
         $memory = Memory::factory()->for($family)->create();
 
         $data = ['body' => '家族からのコメント新規登録テスト'];
