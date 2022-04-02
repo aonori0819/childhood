@@ -22,8 +22,9 @@
                         <div class="form-group">
                             <textarea name="body" class="form-control" rows="3" placeholder="コメントを入力"></textarea>
                         </div>
-
-                        <button type="submit" class="btn blue-gradient btn-block">コメント送信</button>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn blue-gradient btn-block" style="width:150px">コメントする</button>
+                        </div>
                     </form>
                 </div>
             </div>

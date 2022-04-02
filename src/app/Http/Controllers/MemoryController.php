@@ -24,9 +24,9 @@ class MemoryController extends Controller
         $user = Auth::user();
 
         //family_id設定済の場合
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            $family = $user->user_detail->family;
+            $family = $user->userDetail->family;
 
             $query = Memory::query();
             $query->where('family_id', $family->id)->orderBy('created_at','desc');
@@ -67,14 +67,11 @@ class MemoryController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $user_detail = $user->user_detail;
 
         //family_id設定済の場合、同じファミリーに紐づく全てのお子さまを取得してビューのチェックボックスに表示
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            // $child_list = Family::find($user->user_detail->family->id)->children->pluck("name", "id");
-            $child_list = Family::find($user->user_detail->family->id)->children;
-
+            $child_list = Family::find($user->userDetail->family->id)->children;
 
         }else {
             $child_list = null;
@@ -90,9 +87,9 @@ class MemoryController extends Controller
         $memory->body = $request->body;
 
         //family_id設定済の場合
-        if (isset($request->user()->user_detail->family_id))
+        if (isset($request->user()->userDetail->family_id))
         {
-            $memory->family_id = $request->user()->user_detail->family_id;
+            $memory->family_id = $request->user()->userDetail->family_id;
         }
 
         //アップロード画像の保存
@@ -122,9 +119,9 @@ class MemoryController extends Controller
         $user = Auth::user();
 
         //family_id設定済の場合
-        if (isset($user->user_detail->family))
+        if (isset($user->userDetail->family))
         {
-            $child_list = Family::find($user->user_detail->family->id)->children;
+            $child_list = Family::find($user->userDetail->family->id)->children;
         }else {
             $child_list = null;
         }
