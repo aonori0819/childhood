@@ -14,12 +14,8 @@ class Icon extends Model
     public static function saveFile(Request $request)
     {
 	$icon = $request->file('icon_path');
-
-	//imagesというファイルに、第二引数に指定した画像を保存する
 	$path = Storage::disk('s3')->putFile('storage/icon', $icon, 'public');
-
-	//アップロードした画像のフルパスを取得
 	$file_name = Storage::disk('s3')->url($path);    
-	    return $file_name;
+	 return $file_name;
     }
 }

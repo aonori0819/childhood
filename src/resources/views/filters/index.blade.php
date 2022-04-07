@@ -26,7 +26,7 @@
                             <a href="{{ route('filters.showByChild', [ 'child_id' => $child->id ])}}" class="mr-3">
                                 <label>{{ $child->name }}</label>
                                 @if(isset($child->icon_path))
-                                    <image src="{{ asset('storage/icon/' . $child->icon_path ) }}" width="50" alt="{{ $child->name }}">
+                                    <image src="{{ $child->icon_path }}" width="50" alt="{{ $child->name }}">
                                 @endif
                             </a>
                         @endforeach
