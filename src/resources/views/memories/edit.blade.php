@@ -22,7 +22,7 @@
                     {{-- 画像アップロード --}}
                     @if ($memory->image_path)
                         <div class="image-upload">
-                            <img src="{{ asset('storage/upload/' . $memory->image_path ) }}" width="150" alt="思い出の画像">
+                            <img src="{{ $memory->image_path }}" width="150" alt="思い出の画像">
                         </div>
                     @endif
                     <span class="image-picker">
@@ -47,7 +47,7 @@
                                 <label class="form-check-label" >{{ $child->name }}
                                     @if(isset($child->icon_path))
                                         <div>
-                                            <img src="{{ asset('storage/icon/' . $child->icon_path ) }}" width="50" alt="アイコン画像">
+                                            <img src="{{ $child->icon_path }}" width="50" alt="アイコン画像">
                                         </div>
                                     @endif
                                 </label>

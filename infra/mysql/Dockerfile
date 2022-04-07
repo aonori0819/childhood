@@ -1,8 +1,8 @@
 FROM mysql/mysql-server:8.0
 
 ENV MYSQL_DATABASE=laravel \
-    MYSQL_USER=phper \
-    MYSQL_PASSWORD=secret \
+    MYSQL_USER=root \
+    MYSQL_PASSWORD=secretpassmysql \
     MYSQL_ROOT_PASSWORD=secret \
     TZ=Asia/Tokyo
 

@@ -1,7 +1,7 @@
 <div class="card mt-3">
     <div class="card-body d-flex flex-row">
         @if (isset($memory->user->userDetail->icon_path))
-            <img src="{{ asset('storage/icon/' . $memory->user->userDetail->icon_path ) }}" width="50" height="50" class="rounded-circle mr-1" alt="アイコン画像">
+            <img src="{{ $memory->user->userDetail->icon_path }}" width="50" height="50" class="rounded-circle mr-1" alt="アイコン画像">
         @else
             <i class="fas fa-user-circle fa-3x mr-1"></i>
         @endif
@@ -68,7 +68,7 @@
                         </div>
                         <div class="px-2 ">
                         @if (isset($child_to_memory->icon_path))
-                            <img src="{{ asset('storage/icon/' . $child_to_memory->icon_path ) }}" width="50" height="50" class="rounded-circle" alt="アイコン画像">
+                            <img src="{{ $child_to_memory->icon_path }}" width="50" height="50" class="rounded-circle" alt="アイコン画像">
                         @else
                             <i class="fas fa-user-circle fa-3x mr-1"></i>
                         @endif
@@ -82,8 +82,8 @@
 
                     @if (isset($memory->image_path))
                         <div class="image-upload">
-                            <img src="{{ asset('storage/upload/' . $memory->image_path ) }}" width="150" alt="思い出の画像">
-                        </div>
+                            <img src="{{ $memory->image_path }}" width="150" alt="思い出の画像">
+                        </div>	
                     @endif
                 </div>
             </div>
@@ -98,7 +98,11 @@
 
                     <!-- コメント投稿ユーザー/日時表示 -->
                     <div class="d-flex flex-row">
-                        <i class="fas fa-user-circle fa-3x mr-1"></i>
+                    	 @if (isset($comment->user->userDetail->icon_path))
+           			 <img src="{{ $comment->user->userDetail->icon_path }}" width="50" height="50" class="rounded-circle mr-1" alt="アイコン画像">
+       			 @else
+           			 <i class="fas fa-user-circle fa-3x mr-1"></i>
+       			 @endif
                         <div>
                             <div class="font-weight-bold">{{ $comment->user->name }}</div>
                             <div class="font-weight-lighter">{{ $comment->created_at->format('Y/m/d H:i') }}</div>

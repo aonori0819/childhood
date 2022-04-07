@@ -98,16 +98,18 @@ class ChildController extends Controller
         $child->birthday = $request->birthday;
 
         //アイコン画像の変更
-        if ($request->icon_path) {
+        if (isset($request->icon_path)) {
 
-            if($child->icon_path)
-            {
-                Storage::disk('public')->delete('icon/'.$child->icon_path); //前回アップロードしたファイルがある場合は削除
-            }
-            $file = $request->file('icon_path');                          //今回アップロードされたファイルを取得
-            $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
-            $file->storeAs('icon', $file_name, ['disk' => 'public']);     //ファイルを格納
-            $child->icon_path = $file_name;
+            if(isset($child->icon_path))
+	    {
+	        $disk = Storage::disk('s3');
+		$disk->delete('/storage/icon/'.$child->icon_path);
+	  	}
+
+	    $icon = $request->file('icon_path');
+	    $path = Storage::disk('s3')->putFile('storage/icon', $icon, 'public');
+	    $file_name = Storage::disk('s3')->url($path);
+	    $child->icon_path = $file_name;
         }
         $child->save();
         $user = Auth::user();
