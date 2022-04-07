@@ -34,7 +34,7 @@
                                 <label class="form-check-label" >{{ $child->name }}
                                     @if(isset($child->icon_path))
                                         <div>
-                                            <img src="{{ asset('storage/icon/' . $child->icon_path ) }}" width="50" alt="アイコン画像">
+                                            <img src="{{ $child->icon_path }}" width="50" alt="アイコン画像">
                                         </div>
                                     @endif
                                 </label>

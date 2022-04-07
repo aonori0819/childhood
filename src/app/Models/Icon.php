@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Icon extends Model
 {
@@ -12,10 +13,9 @@ class Icon extends Model
 
     public static function saveFile(Request $request)
     {
-        $file = $request->icon_path;                                  //ファイルを取得
-        $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
-        $file->storeAs('icon', $file_name, ['disk' => 'public']);     //ファイルを格納
-
-        return $file_name;
+	$icon = $request->file('icon_path');
+	$path = Storage::disk('s3')->putFile('storage/icon', $icon, 'public');
+	$file_name = Storage::disk('s3')->url($path);    
+	 return $file_name;
     }
 }

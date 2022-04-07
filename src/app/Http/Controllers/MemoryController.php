@@ -93,10 +93,12 @@ class MemoryController extends Controller
         }
 
         //アップロード画像の保存
-        if ($request->image_path) {
-            $file = $request->file('image_path');                          //ファイルを取得
-            $file_name = uniqid("image_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
-            $file->storeAs('upload', $file_name, ['disk' => 'public']);    //ファイルを格納
+	if ($request->image_path) {
+
+            $image = $request->file('image_path');
+	    $path = Storage::disk('s3')->putFile('storage/image', $image, 'public');
+	    $file_name = Storage::disk('s3')->url($path);
+
             $memory->image_path = $file_name;
         }
 
@@ -149,7 +151,7 @@ class MemoryController extends Controller
 
         if ($request->delete_image==true)
         {
-            Storage::disk('public')->delete('upload/'.$previous_file);
+            Storage::disk('s3')->delete('storage/image/'.$previous_file);
             $memory->image_path = null;
         }
 
@@ -158,11 +160,11 @@ class MemoryController extends Controller
         {
             if(isset($memory->image_path))
             {
-                Storage::disk('public')->delete('upload/'.$previous_file); //前回アップロードしたファイルがある場合は削除
-            }
-            $file = $request->file('image_path');                          //今回アップロードされたファイルを取得
-            $file_name = uniqid("image_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
-            $file->storeAs('upload', $file_name, ['disk' => 'public']);    //ファイルを格納
+                Storage::disk('s3')->delete('storage/image/'.$previous_file); //前回アップロードしたファイルがある場合は削除
+	    }
+	    $image = $request->file('image_path');
+	    $path = Storage::disk('s3')->putFile('storage/image', $image, 'public');
+	    $file_name = Storage::disk('s3')->url($path);
             $memory->image_path = $file_name;
         }
 
@@ -177,7 +179,7 @@ class MemoryController extends Controller
         $previous_file = $memory->image_path;
         if ($previous_file)
         {
-            Storage::disk('public')->delete('upload/'.$previous_file);
+            Storage::disk('s3')->delete('storage/image/'.$previous_file);
         }
 
         $memory->delete();

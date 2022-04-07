@@ -22,9 +22,9 @@
                                     <textarea name="birthday" class="form-control" rows="1" placeholder="お誕生日">{{ $child->birthday ?? old('birthday') }}</textarea>
                                     <div class="image-picker">
                                         <label><p class="mt-5">アイコン画像</p></label>
-                                        @if($child->icon_path)
+                                        @if(isset($child->icon_path))
                                             <div>
-                                                <img src="{{ asset('storage/icon/' . $child->icon_path ) }}" width="150" alt="アイコン画像">
+                                                <img src="{{ $child->icon_path }}" width="150" alt="アイコン画像">
                                             </div>
                                         @endif
                                         @if($errors->has('icon_path')) <div class="text-danger">{{ $errors->first('icon_path') }}</div> @endif
