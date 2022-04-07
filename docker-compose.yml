@@ -14,8 +14,16 @@ services:
     working_dir: /data
 
   db:
+    env_file: .env
     platform: linux/arm64/v8
-    build: ./infra/mysql
+    build: 
+      context: .
+      dockerfile: ./infra/mysql/Dockerfile
+      args:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - db-store:/var/lib/mysql
 
@@ -24,8 +32,8 @@ services:
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=secretpassmysql
+      - PMA_USER=${PMA_USER}
+      - PMA_PASSWORD=${PMA_PASSWORD}
     links:
       - mysql
     ports:
