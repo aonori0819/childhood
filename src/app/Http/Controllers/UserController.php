@@ -84,11 +84,11 @@ class UserController extends Controller
 
                 if($user_detail->icon_path)
                 {
-                    Storage::disk('public')->delete('icon/'.$user_detail->icon_path); //前回アップロードしたファイルがある場合は削除
-                }
-                $file = $request->file('icon_path');                          //今回アップロードされたファイルを取得
-                $file_name = uniqid("icon_") . "." . $file->guessExtension(); //ユニークIDをファイル名にする
-                $file->storeAs('icon', $file_name, ['disk' => 'public']);     //ファイルを格納
+                    Storage::disk('s3')->delete('storage/icon/'.$user_detail->icon_path); //前回アップロードしたファイルがある場合は削除
+		}
+		$icon = $request->file('icon_path');
+	        $path = Storage::disk('s3')->putFile('storage/icon', $icon, 'public');
+		$file_name = Storage::disk('s3')->url($path);
                 $user_detail->icon_path = $file_name;
             }
 
