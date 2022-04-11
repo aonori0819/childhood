@@ -29,7 +29,7 @@
     * VScode 
 
 ## 3. インフラ構成図
-![childhood_infra](https://user-images.githubusercontent.com/98136753/162660792-e97ba8d5-2e4e-4236-ae64-977085fa87f9.png)  
+<img src="https://user-images.githubusercontent.com/98136753/162661657-c7054649-fc8f-4166-b9b2-aa14b3521315.png" width="400px" alt="インフラ構成図" >
 
 
 
