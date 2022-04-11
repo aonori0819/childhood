@@ -20,7 +20,7 @@
   
   * インフラ
     * nginx 1.20.2
-    * 開発環境：Docker 20.10.12
+    * 開発環境：Docker 20.10.12 / Docker Compose 3.9.0
     * 本番環境：AWS ( EC2, ALB, ACM, S3, RDS, Route53, VPC, IAM ) 
    
   * その他
